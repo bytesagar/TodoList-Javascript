@@ -41,6 +41,7 @@ body{
     cursor: pointer;
     text-shadow: 1px 3px 5px #000;
     transform: rotate(45deg);
+    transition: ease 0.5s;
 }
 #date{
     position: absolute;

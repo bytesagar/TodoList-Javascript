@@ -12,10 +12,37 @@ const CHECK = "fa-check-circle";
 const UNCHECK = "fa-circle-thin";
 const LineThrough = "lineThrough";
 
-let List= [];
-let id=0;
-let emptyList = []
+let List,id;
 
+let data = localStorage.getItem('toDo');
+console.log(data);
+
+
+//checking for empty data
+
+if(data){
+    List = JSON.parse(data);
+    id= List.length;
+    loadList(List);
+}
+else{
+    List = [];
+    id=0;
+}
+
+//load list function
+function loadList(array){
+    array.forEach( item => {
+        addTodo(item.name,item.id,item.done,item.trash)
+    })
+}
+
+//clear the list
+clear.addEventListener('click', ()=>{
+    localStorage.clear();
+    location.reload();
+
+})
 //Display date
 const options = {weekday: "short", month:"long", day:"numeric"};
 const today = new Date();
@@ -52,25 +79,17 @@ document.addEventListener("keyup", function(e){
                     id: id,
                     done: false,
                     trash: false
-                })
+                });
         }
+        localStorage.setItem('toDo', JSON.stringify(List));
+
         console.log(List);
         id++;
         input.value = "";
     }
 })
 
-//clear event listener
-clear.addEventListener("click", function(){
-    const e = document.querySelector("ul");
-    const child = document.querySelector(".item ");
-    while(e.firstChild){
-        e.removeChild(e.firstChild);
-    }
-    
-    
 
-})
 //function complete todo
 function completetoDo(element){
     element.classList.toggle(CHECK);
@@ -97,5 +116,7 @@ list.addEventListener("click", function(event){
     else if (elementJob === "delete"){
         removetoDo(element);
     }
+
+    localStorage.setItem('toDo', JSON.stringify(List))
 })
 
